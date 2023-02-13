@@ -6,6 +6,9 @@ class ServerConfig {
     this.authServerConfig = {
       baseURL: "http://localhost:8001/auth",
     };
+    this.productServerConfig = {
+      baseURL: "http://localhost:8002/products",
+    };
   }
 }
 
