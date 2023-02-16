@@ -9,6 +9,9 @@ class ServerConfig {
     this.productServerConfig = {
       baseURL: "http://localhost:8002/products",
     };
+    this.cateogoryServerConfig = {
+      baseURL: "http://localhost:8002/category",
+    };
   }
 }
 

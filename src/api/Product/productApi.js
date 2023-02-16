@@ -5,6 +5,16 @@ class ProductApi {
   constructor() {
     this.router = new Router({ mergeParams: true });
     this.router.post("", this.addProduct);
+    this.router.get("", this.getAllProducts);
+  }
+
+  async getAllProducts(req, res, next) {
+    try {
+      const response = await productClient.get("");
+      res.status(response.status).send(response.data);
+    } catch (error) {
+      res.status(error.response.status).send(error.response.data);
+    }
   }
 
   async addProduct(req, res, next) {
