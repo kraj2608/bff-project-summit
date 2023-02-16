@@ -13,11 +13,12 @@ class AuthClient extends RestClient {
     };
 
     ["get"].forEach((method) => {
-      this[method] = async (url, token) => {
+      this[method] = async (url, token, customHeaders = null) => {
         try {
           const headers = {
             Accept: "application/json",
             Authorization: token,
+            ...customHeaders,
           };
           return await this.requestWithRetry(method, url, headers, null);
         } catch (error) {
