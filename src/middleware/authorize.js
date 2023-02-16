@@ -4,7 +4,7 @@ import authClient from "../connectors/authClient";
 export default function Authorizer(allowedMethodTypes, roles) {
   return async (req, res, next) => {
     const token = req.headers.authorization;
-    console.log("Method is: ", req.method);
+
     if (allowedMethodTypes.includes(req.method)) {
       next();
       return;

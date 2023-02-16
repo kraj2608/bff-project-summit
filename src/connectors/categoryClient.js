@@ -1,9 +1,9 @@
 import { serverConfig } from "../config/serverConfig";
 import RestClient from "./restClient";
 
-class AuthClient extends RestClient {
+class CategoryClient extends RestClient {
   constructor() {
-    super(serverConfig.authServerConfig);
+    super(serverConfig.cateogoryServerConfig);
     this.requestWithRetry = async (type, url, headers, data) => {
       try {
         return await this.makeRequest(type, url, headers, data);
@@ -13,12 +13,10 @@ class AuthClient extends RestClient {
     };
 
     ["get"].forEach((method) => {
-      this[method] = async (url, token, customHeaders = null) => {
+      this[method] = async (url) => {
         try {
           const headers = {
             Accept: "application/json",
-            Authorization: token,
-            ...customHeaders,
           };
           return await this.requestWithRetry(method, url, headers, null);
         } catch (error) {
@@ -42,4 +40,4 @@ class AuthClient extends RestClient {
   }
 }
 
-export default new AuthClient();
+export default new CategoryClient();
