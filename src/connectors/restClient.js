@@ -5,12 +5,13 @@ class RestClient {
     this.axiosInstance = axios.create(config);
   }
 
-  async makeRequest(type, url, headers, body) {
+  async makeRequest(type, url, headers, params, body) {
     return await this.axiosInstance({
       url: url,
       method: type,
       data: body,
       headers: headers,
+      params: params,
     });
   }
 }

@@ -4,21 +4,27 @@ import RestClient from "./restClient";
 class CategoryClient extends RestClient {
   constructor() {
     super(serverConfig.cateogoryServerConfig);
-    this.requestWithRetry = async (type, url, headers, data) => {
+    this.requestWithRetry = async (type, url, headers, params, data) => {
       try {
-        return await this.makeRequest(type, url, headers, data);
+        return await this.makeRequest(type, url, headers, params, data);
       } catch (error) {
         throw error;
       }
     };
 
     ["get"].forEach((method) => {
-      this[method] = async (url) => {
+      this[method] = async (url, params = null) => {
         try {
           const headers = {
             Accept: "application/json",
           };
-          return await this.requestWithRetry(method, url, headers, null);
+          return await this.requestWithRetry(
+            method,
+            url,
+            headers,
+            params,
+            null
+          );
         } catch (error) {
           throw error;
         }
@@ -26,12 +32,18 @@ class CategoryClient extends RestClient {
     });
 
     ["post"].forEach((method) => {
-      this[method] = async (url, data) => {
+      this[method] = async (url, data, params = null) => {
         try {
           const headers = {
             Accept: "application/json",
           };
-          return await this.requestWithRetry(method, url, headers, data);
+          return await this.requestWithRetry(
+            method,
+            url,
+            headers,
+            params,
+            data
+          );
         } catch (error) {
           throw error;
         }

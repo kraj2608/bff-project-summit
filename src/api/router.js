@@ -1,5 +1,4 @@
 import express from "express";
-import Authorizer from "../middleware/authorize";
 
 import AuthApi from "./Auth/authApi";
 import CartApi from "./Cart/cartApi";
@@ -15,10 +14,10 @@ const authApi = new AuthApi();
 const productApi = new ProductApi();
 const categoryApi = new CategoryApi();
 
-router.use("/cart", Authorizer([], []), cartApi.router);
+router.use("/cart", cartApi.router);
 router.use("/user", userApi.router);
 router.use("/auth", authApi.router);
-router.use("/product", Authorizer(["GET"], []), productApi.router);
+router.use("/product", productApi.router);
 router.use("/category", categoryApi.router);
 
 export default router;
