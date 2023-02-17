@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 
 import config from "./config.json";
 import router from "./api/router";
+import Authorizer from "./middleware/authorize";
 
 const app = express();
 app.server = http.createServer(app);
@@ -28,7 +29,7 @@ app.use(
   })
 );
 
-app.use("/api/v1", router);
+app.use("/api/v1", Authorizer(), router);
 
 app.server.listen(process.env.PORT || config.port, () => {
   console.log(`Started on port ${app.server.address().port}`);

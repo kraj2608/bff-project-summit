@@ -1,4 +1,5 @@
 import { Router } from "express";
+import cartClient from "../../connectors/cartClient";
 
 class CartApi {
   constructor() {
@@ -8,8 +9,11 @@ class CartApi {
 
   async createCart(req, res, next) {
     try {
-      res.send("HEllo");
-    } catch (error) {}
+      const response = await cartClient.post("", req.body);
+      res.status(response.status).send(response.data);
+    } catch (error) {
+      res.status(error.response.status).send(error.response.data);
+    }
   }
 }
 

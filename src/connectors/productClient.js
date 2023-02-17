@@ -4,21 +4,27 @@ import RestClient from "./restClient";
 class ProductClient extends RestClient {
   constructor() {
     super(serverConfig.productServerConfig);
-    this.requestWithRetry = async (type, url, headers, data) => {
+    this.requestWithRetry = async (type, url, headers, params, data) => {
       try {
-        return await this.makeRequest(type, url, headers, data);
+        return await this.makeRequest(type, url, headers, params, data);
       } catch (error) {
         throw error;
       }
     };
 
     ["get"].forEach((method) => {
-      this[method] = async (url) => {
+      this[method] = async (url, params = null) => {
         try {
           const headers = {
             Accept: "application/json",
           };
-          return await this.requestWithRetry(method, url, headers, null);
+          return await this.requestWithRetry(
+            method,
+            url,
+            headers,
+            params,
+            null
+          );
         } catch (error) {
           throw error;
         }
@@ -31,7 +37,7 @@ class ProductClient extends RestClient {
           const headers = {
             Accept: "application/json",
           };
-          return await this.requestWithRetry(method, url, headers, data);
+          return await this.requestWithRetry(method, url, headers,null, data);
         } catch (error) {
           throw error;
         }

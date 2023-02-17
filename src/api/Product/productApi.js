@@ -10,8 +10,14 @@ class ProductApi {
   }
 
   async getAllProducts(req, res, next) {
+    const categoryId = req.query.category_id;
+    const searchText = req.query.search;
+    let url = "";
     try {
-      const response = await productClient.get("");
+      const response = await productClient.get(url, {
+        category_id: categoryId,
+        search: searchText,
+      });
       res.status(response.status).send(response.data);
     } catch (error) {
       res.status(error.response.status).send(error.response.data);

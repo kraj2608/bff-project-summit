@@ -12,6 +12,9 @@ class ServerConfig {
     this.cateogoryServerConfig = {
       baseURL: "http://localhost:8002/category",
     };
+    this.cartServerConfig = {
+      baseURL: "http://localhost:8003/carts",
+    };
   }
 }
 
