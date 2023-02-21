@@ -8,6 +8,18 @@ export const MethodTypes = {
 export const AuthEndPoints = [
   {
     type: "POST",
-    url: "/api/v1/product",
+    url: "/product",
+  },
+  {
+    type: "POST",
+    url: "/cart",
+  },
+  {
+    type: "GET",
+    url: "/cart/:email",
+  },
+  {
+    type: "DELETE",
+    url: "/cart/:id",
   },
 ];

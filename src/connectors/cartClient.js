@@ -31,7 +31,7 @@ class CartClient extends RestClient {
       };
     });
 
-    ["post"].forEach((method) => {
+    ["post", "delete"].forEach((method) => {
       this[method] = async (url, data) => {
         try {
           const headers = {
