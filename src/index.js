@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 import http from "http";
@@ -31,8 +31,8 @@ app.use(
 
 app.use("/api/v1", Authorizer(), router);
 
-app.server.listen(process.env.PORT || config.port, () => {
-  console.log(`Started on port ${app.server.address().port}`);
+app.server.listen(process.env.PORT, () => {
+  console.log(`Started on port ${process.env.PORT}`);
 });
 
 export default app;

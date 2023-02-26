@@ -48,7 +48,7 @@ class AuthApi {
       const response = await authClient.get("/refresh", refreshToken, {
         IsRefreshToken: true,
       });
- 
+
       res.status(response.status).send(response.data);
     } catch (error) {
       res.status(error.response.status).send(error.response.data);
