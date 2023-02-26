@@ -3,6 +3,7 @@ import RestClient from "./restClient";
 
 class CartClient extends RestClient {
   constructor() {
+    console.log(process.env.AUTH_URL);
     super(serverConfig.cartServerConfig);
     this.requestWithRetry = async (type, url, headers, params, data) => {
       try {
@@ -31,7 +32,7 @@ class CartClient extends RestClient {
       };
     });
 
-    ["post"].forEach((method) => {
+    ["post", "delete"].forEach((method) => {
       this[method] = async (url, data) => {
         try {
           const headers = {

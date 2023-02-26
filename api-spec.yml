@@ -1,0 +1,333 @@
+openapi: 3.0.1
+info:
+  version: "0.0.1"
+  title: FoodShop API
+  description: Foodshop App API documentation
+
+tags:
+  - name: User
+  - name: Auth
+  - name: Categories
+  - name: Products
+  - name: Carts
+
+servers:
+  - url: http://localhost:5000/api/v1
+paths:
+  /users:
+    post:
+      tags:
+        - User
+      summary: Registering the User
+      description: Register the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Account created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+        "400":
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Authenticating the user
+      description: Authenticating the user with the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRequest"
+      responses:
+        "200":
+          description: Authentication success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+
+        "401":
+          description: Email or password invalid
+
+  /auth/refresh:
+    get:
+      tags:
+        - Auth
+      summary: Refreshing the Authentication token
+      description: Refreshing the authentication token using the refresh token
+      parameters:
+        - name: Authorization token
+          description: Bearer token for the authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Authentication success
+          content:
+            application/json:
+              schema:
+                type: object
+
+        "401":
+          description: Email or password invalid
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Get all the categories of products
+      description: Get all the categories related with the products
+      responses:
+        "200":
+          description: Categories fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+
+  /products:
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: category_id
+          required: false
+          description: Get the products for a specific Category
+          in: query
+          schema:
+            type: string
+        - name: search
+          required: false
+          description: Get the products for search text
+          in: query
+          schema:
+            type: string
+      summary: Get all the products
+      description: Get all the products in the system
+      responses:
+        "200":
+          description: Products fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Get the product
+      description: Get the product details for a product id
+      responses:
+        "200":
+          description: Products fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleProductResponse"
+
+  /carts:
+    post:
+      tags:
+        - Carts
+      summary: Get all the products
+      description: Get all the products in the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartRequest"
+      responses:
+        "200":
+          description: Carts fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartResponse"
+  /carts/{id}:
+    get:
+      tags:
+        - Carts
+      summary: Get the cart
+      description: Get the cart details for a cart id
+      responses:
+        "200":
+          description: Products fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleProductResponse"
+        "404":
+          description: Product not found
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        product_items:
+          type: array
+
+    CartResponse:
+      type: object
+      properties:
+        cart:
+          $ref: "#/components/schemas/Cart"
+        message:
+          type: string
+        status_code:
+          type: number
+    CartRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+        rating:
+          type: number
+        categories:
+          type: array
+        images:
+          type: array
+        producer_name:
+          type: string
+        producer_description:
+          type: string
+
+    SingleProductResponse:
+      type: object
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+        message:
+          type: string
+        status_code:
+          type: number
+    ProductResponse:
+      required:
+        - categories
+      type: object
+      properties:
+        products:
+          type: array
+        message:
+          type: string
+        status_code:
+          type: number
+    CategoryResponse:
+      required:
+        - categories
+      type: object
+      properties:
+        categories:
+          type: array
+        message:
+          type: string
+        status_code:
+          type: number
+
+    AuthRequest:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    User:
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+        - created_at
+        - modified_at
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        created_at:
+          type: string
+        modified_at:
+          type: string
+    UserResponse:
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    RegisterResponse:
+      required:
+        - user
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        status_code:
+          type: number
+        message:
+          type: string
+    LoginResponse:
+      required:
+        - user
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        status_code:
+          type: number
+        message:
+          type: string
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+    RefreshResponse:
+      properties:
+        message:
+          type: string
