@@ -14,7 +14,7 @@ const authApi = new AuthApi();
 const productApi = new ProductApi();
 const categoryApi = new CategoryApi();
 
-router.use("/cart", cartApi.router);
+router.use("/carts", cartApi.router);
 router.use("/users", userApi.router);
 router.use("/auth", authApi.router);
 router.use("/products", productApi.router);
